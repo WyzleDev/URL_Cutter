@@ -69,7 +69,7 @@ def choice_logic(user_choice):
                 file.write(str_result)
                 file.close()
                 print('Shorted link is: ' + respond_shorted_link['url']['shortLink'])
-                print('All info was written to stats of url.txt file in program directory! Check it out.')
+                print('All info was written to stats of url.txt file in program directory! Check it out')
         else:
             print(respond_shorted_link)
     elif user_choice == "2":
