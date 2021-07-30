@@ -1,13 +1,21 @@
 import requests
 import urllib
+import os.path
 
 
 def get_api():
     api_key_func = str(input('Input your API key from https://cutt.ly/edit\n> '))
+    with open('api_key.txt', 'w+') as file:
+        file.write(api_key_func)
+        file.close()
     return api_key_func
 
 
-api_key = get_api()
+if not os.path.isfile('api_key.txt'):
+    api_key = get_api()
+else:
+    with open('api_key.txt', 'r') as file:
+        api_key = file.read()
 
 
 def what_to_do_choice():
@@ -54,26 +62,26 @@ def choice_logic(user_choice):
         prefer_name = str(input('Enter prefer name ~> '))
         respond_shorted_link = short_link(url=url, prefer_name=prefer_name, key=api_key)
         if type(respond_shorted_link) == dict:
-            with open(f'stats of url', 'w+') as file:
+            with open(f'stats of url.txt', 'w+') as file:
                 str_result = ('Full link: ' + respond_shorted_link['url']['fullLink'] + '\n' + 'Short Link: ' +
                               respond_shorted_link['url']['shortLink'])
 
                 file.write(str_result)
                 file.close()
                 print('Shorted link is: ' + respond_shorted_link['url']['shortLink'])
-                print('All info was written to stats of url file in program directory! Check it out.')
+                print('All info was written to stats of url.txt file in program directory! Check it out.')
         else:
             print(respond_shorted_link)
     elif user_choice == "2":
         shorted_link_to_get = str(input('Enter shortened link you want statistic to get ~> '))
         res = get_shortened_link(url=shorted_link_to_get, key=api_key)
 
-        with open(f'stats of url', 'w+') as file:
+        with open(f'stats of url.txt', 'w+') as file:
             str_res = ('Clicks: ' + str(res['stats']['clicks']) + '\n' + "Full Link: " + res['stats'][
                 'fullLink'] + '\n' +
                        'facebook clicks: ' + str(res['stats']['facebook']) + '\n' + 'Instagram clicks: ' +
                        str(res['stats']['facebook']) + '\n' + "Other Clicks: " + str(res['stats']['rest']))
-            print('All info was written to stats of url file in program directory! Check it out.')
+            print('All info was written to stats of url.txt file in program directory! Check it out.')
             file.write(str_res)
             file.close()
     else:
